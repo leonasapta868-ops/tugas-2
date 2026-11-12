@@ -1,32 +1,20 @@
+name: Build C++ App
 
-name: Build C++ to EXE
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+on: [push]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - name: Ambil kode dari repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Siapkan compiler C++
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          install: mingw-w64-ucrt-x86_64-gcc
+    - name: Compile C++ program
+      run: g++ tugas2.cpp -o tugas2.exe -static
 
-      - name: Compile C++ menjadi EXE
-        shell: msys2 {0}
-        run: g++ tugas2.cpp -o tugas2.exe
-
-      - name: Simpan file EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: hasil-exe
-          path: tugas2.exe
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: hasil-exe
+        path: tugas2.exe
